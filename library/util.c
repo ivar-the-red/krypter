@@ -9,7 +9,7 @@ const char *b64_chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz012
 
 int hex_to_bytes(const char *hex_string, unsigned char *byte_array, size_t byte_array_length)
 {
-    size_t hex_len = sizeof(hex_string);
+    size_t hex_len = strlen(hex_string);
 
     if (hex_len % 2 != 0)
         return -1;     //Hex string must have even digits to be valid
@@ -78,7 +78,7 @@ char *bytes_to_b64(const unsigned char *byte_array, size_t byte_array_len)
 
 int hex_to_b64(const char *hex_string, char **b64_string)
 {
-    size_t hex_str_len = sizeof(hex_string);
+    size_t hex_str_len = strlen(hex_string);
     size_t byte_arr_size = hex_str_len / 2;
     unsigned char *byte_arr = (unsigned char *)malloc(byte_arr_size * sizeof(char));
 
