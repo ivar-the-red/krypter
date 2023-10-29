@@ -102,3 +102,63 @@ int hex_to_b64(const char *hex_string, char **b64_string)
     free(byte_arr);
     return res;
 }
+
+
+int f_xor(const char *hex_arg1, const char *hex_arg2, char* hex_result, size_t fixed_length)
+{
+	int ret = 0;
+	size_t arg1_len = strlen(hex_arg1);
+	size_t arg2_len = strlen(hex_arg2);
+
+	if (arg1_len != arg2_len || arg1_len != fixed_length)
+	{
+		printf("Length mismatch! Aborting.\n");
+		ret = -1;
+		return ret;
+	}
+
+	if (arg1_len % 2 != 0)	// Only need to check arg1_len since all lengths are equal here
+	{
+		printf("Length is odd! Aborting.\n");
+		ret = -2;
+		return ret;
+	}
+
+	size_t byte_arr1_size = arg1_len / 2;
+    unsigned char *byte_arr1 = (unsigned char *)malloc(byte_arr1_size * sizeof(char));
+	ret = hex_to_bytes(hex_arg1, byte_arr1, byte_arr1_size);
+
+	if ((ret < 0))                  //If an error occured, return the error code
+    {
+        free(byte_arr1);
+        return ret; 
+    }
+
+    if ((int)byte_arr1_size != ret)  //Error: bytes written and array size do not match
+    {
+        free(byte_arr1);
+        return -4;
+    }
+
+	size_t byte_arr2_size = arg2_len / 2;
+    unsigned char *byte_arr2 = (unsigned char *)malloc(byte_arr2_size * sizeof(char));
+	ret = hex_to_bytes(hex_arg2, byte_arr2, byte_arr2_size);
+
+	if ((ret < 0))                  //If an error occured, return the error code
+    {
+        free(byte_arr2);
+        return ret; 
+    }
+
+    if ((int)byte_arr2_size != ret)  //Error: bytes written and array size do not match
+    {
+        free(byte_arr2);
+        return -4;
+    }
+	
+	//TODO - Now loop through both byte arrays and xor each byte, and write to output byte array
+
+	//TODO -  Convert the output byte array back to hex
+
+	return ret;
+}
